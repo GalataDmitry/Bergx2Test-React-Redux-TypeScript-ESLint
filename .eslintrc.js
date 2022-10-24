@@ -20,6 +20,7 @@ module.exports = {
         "@typescript-eslint"
     ],
     "rules": {
-        "quotes": ["warn", "double"]
+        "quotes": ["warn", "double"],
+        "@typescript-eslint/no-non-null-assertion": "off"
     }
 }
