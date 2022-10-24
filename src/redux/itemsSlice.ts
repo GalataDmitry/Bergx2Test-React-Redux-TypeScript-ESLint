@@ -1,7 +1,6 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit"
 import {ItemsStateType} from "../types/types"
 import {fetchItems} from "../functions/fetchItems"
-import {AppDispatch} from "./store"
 
 const initialState: ItemsStateType = {
     items: [],
@@ -12,7 +11,13 @@ const initialState: ItemsStateType = {
 }
 export const fetchItemsData = createAsyncThunk(
     "fetchItemsData",
-    (dispatch: AppDispatch) => fetchItems(dispatch)
+    (_, thunkApi) => {
+        try {
+           return fetchItems()
+        } catch (e) {
+            return thunkApi.rejectWithValue(true)
+        }
+    }
 )
 
 export const itemsSlice = createSlice({
@@ -21,31 +26,24 @@ export const itemsSlice = createSlice({
     reducers: {
         setNewItemsArrayData: (state, action) => {
             state.newItemsArray = action.payload
-        },
-        setError: (state) => {
-            state.setError = true
-            state.error = true
-            state.loading = false
         }
     },
-    extraReducers: (builder) => {
-        builder
-            .addCase(fetchItemsData.pending, (state) => {
+    extraReducers: {
+            [fetchItemsData.pending.type]: (state) => {
                 state.loading = true
                 state.error = false
-            })
-            .addCase(fetchItemsData.fulfilled, (state, action) => {
+            },
+            [fetchItemsData.fulfilled.type]:(state, action) => {
                 state.loading = false
                 state.error = false
                 state.items = action.payload
-                if (state.setError) state.error = true
-            })
-            .addCase(fetchItemsData.rejected, (state) => {
+            },
+            [fetchItemsData.rejected.type]: (state) => {
                 state.loading = false
                 state.error = true
-            })
+            }
     }
 })
 
-export const {setNewItemsArrayData, setError} = itemsSlice.actions
+export const {setNewItemsArrayData} = itemsSlice.actions
 export default itemsSlice.reducer
