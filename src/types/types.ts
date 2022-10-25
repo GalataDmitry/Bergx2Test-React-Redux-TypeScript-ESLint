@@ -53,6 +53,5 @@ export interface ItemsStateType {
     }] | []
     loading?: boolean
     error?: boolean
-    setError?: boolean
 }
 

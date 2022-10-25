@@ -7,7 +7,6 @@ const initialState: ItemsStateType = {
     newItemsArray: [],
     loading: false,
     error: false,
-    setError: false
 }
 export const fetchItemsData = createAsyncThunk(
     "fetchItemsData",
@@ -15,7 +14,7 @@ export const fetchItemsData = createAsyncThunk(
         try {
            return fetchItems()
         } catch (e) {
-            return thunkApi.rejectWithValue(true)
+            return thunkApi.rejectWithValue(_)
         }
     }
 )

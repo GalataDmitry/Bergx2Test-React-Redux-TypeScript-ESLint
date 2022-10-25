@@ -11,7 +11,8 @@ const AppContainer = () => {
     const newItemsArray = useAppSelector(state => state.itemsReducer.newItemsArray)
     const loading = useAppSelector(state => state.itemsReducer.loading)
     const error = useAppSelector(state => state.itemsReducer.error)
-    console.log(error)
+    console.log('items', items)
+    console.log('newItemsArray', newItemsArray)
 
     useEffect(() => {
         dispatch(fetchItemsData())
